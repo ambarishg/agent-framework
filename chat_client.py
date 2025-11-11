@@ -9,6 +9,11 @@ from agent_framework import (
     WorkflowOutputEvent,
 )
 from agent_framework.azure import AzureOpenAIChatClient
+import random
+from pydantic import Field
+from typing import Annotated
+from datetime import datetime, timedelta
+import logging
 
 AZURE_OPENAI_API_VERSION = "2024-12-01-preview"
 
@@ -19,12 +24,8 @@ chat_client = AzureOpenAIChatClient(
     deployment_name=AZURE_OPENAI_DEPLOYMENT_GPT_4O_ID,
 )
 
-import logging
+
 logging.basicConfig(level=logging.WARNING, force=True, format="%(message)s")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-import random
-from pydantic import Field
-from typing import Annotated
-from datetime import datetime, timedelta
