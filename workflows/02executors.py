@@ -186,22 +186,21 @@ async def main():
     print(events1.get_outputs())
     print("Final state:", events1.get_final_state())
 
-     # Workflow 2: Using explicit type parameters on @handler
+    # Workflow 2: Using WorkflowContext typing on @handler
     # -------------------------------------------------------
     upper_case = UpperCase(id="upper_case_executor")
     exclamation_adder = ExclamationAdder(id="exclamation_adder")
 
-    # This workflow demonstrates the explicit input/output feature:
-    # exclamation_adder uses @handler(input=str, output=str) to
-    # explicitly declare types instead of relying on introspection.
+    # This workflow shows how annotating WorkflowContext[str] declares str outputs.
     workflow2 = (
-        WorkflowBuilder(start_executor=upper_case)
+        WorkflowBuilder()
+        .set_start_executor(upper_case)
         .add_edge(upper_case, exclamation_adder)
         .add_edge(exclamation_adder, reverse_text)
         .build()
     )
 
-    print("\nWorkflow 2 (explicit @handler types):")
+    print("\nWorkflow 2 (WorkflowContext typing):")
     events2 = await workflow2.run("hello world")
     print(events2.get_outputs())
     print("Final state:", events2.get_final_state())
